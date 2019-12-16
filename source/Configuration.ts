@@ -1,12 +1,6 @@
 import { pbkdf2 } from "./derivation";
-import {
-    decryptCBC,
-    decryptGCM,
-    encryptCBC,
-    encryptGCM,
-    generateIV,
-    generateSalt
-} from "./encryption";
+import { decryptCBC, decryptGCM, encryptCBC, encryptGCM } from "./textEncryption";
+import { generateIV, generateSalt } from "./generation";
 import { ALGO_DEFAULT } from "./shared";
 import {
     DecryptionFunction,

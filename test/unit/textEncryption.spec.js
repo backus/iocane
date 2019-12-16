@@ -1,17 +1,11 @@
-const {
-    decryptCBC,
-    decryptGCM,
-    encryptCBC,
-    encryptGCM,
-    generateIV,
-    generateSalt
-} = require("../../dist/encryption.js");
+const { decryptCBC, decryptGCM, encryptCBC, encryptGCM } = require("../../dist/textEncryption.js");
 const { deriveFromPassword, pbkdf2 } = require("../../dist/derivation.js");
+const { generateIV } = require("../../dist/generation.js");
 
 const ENCRYPTED_SAMPLE = "at5427PQdplGgZgcmIjy/Fv0xZaiKO+bzmY7NsnYj90=";
 const ENCRYPTED_SAMPLE_RAW = "iocane secret text";
 
-describe("encryption", function() {
+describe("textEncryption", function() {
     describe("decryptCBC", function() {
         beforeEach(function() {
             return deriveFromPassword(pbkdf2, "pass", "salt", 1000)
@@ -133,34 +127,6 @@ describe("encryption", function() {
                     expect(encrypted).to.have.property("method", "gcm");
                 }
             );
-        });
-    });
-
-    describe("generateIV", function() {
-        it("generates a buffer", function() {
-            return generateIV().then(iv => {
-                expect(iv).to.be.an.instanceof(Buffer);
-            });
-        });
-
-        it("generates a non-empty value", function() {
-            return generateIV().then(iv => {
-                expect(iv.toString("hex")).to.have.length.above(0);
-            });
-        });
-    });
-
-    describe("generateSalt", function() {
-        it("generates the correct length", function() {
-            return generateSalt(42).then(salt => {
-                expect(salt).to.have.lengthOf(42);
-            });
-        });
-
-        it("generates base64", function() {
-            return generateSalt(31).then(salt => {
-                expect(salt).to.match(/^[a-zA-Z0-9/=+]{31}$/);
-            });
         });
     });
 });
